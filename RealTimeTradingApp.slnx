@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="TradingApp.BusinessLayer/TradingApp.BusinessLayer.csproj" />
   <Project Path="TradingApp.DataLayer/TradingApp.DataLayer.csproj" />
+  <Project Path="TradingApp.Tests/TradingApp.Tests.csproj" />
   <Project Path="TradingApp.UILayer/TradingApp.UILayer.csproj" />
 </Solution>

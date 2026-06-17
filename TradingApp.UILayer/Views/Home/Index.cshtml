@@ -34,18 +34,5 @@
 
 @section Scripts {
     <script src="~/js/trading-ui.js" asp-append-version="true"></script>
-    <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/hubs/trading")
-            .withAutomaticReconnect()
-            .build();
-
-        connection.on("ReceivePriceUpdate", (data) => {
-            TradingUI.updatePair(data.pairId, data);
-        });
-
-        connection.start().catch((error) => {
-            console.error("SignalR connection failed:", error);
-        });
-    </script>
+    <script src="~/js/trading-signalr.js" asp-append-version="true"></script>
 }

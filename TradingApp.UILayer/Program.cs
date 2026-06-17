@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TradingApp.BusinessLayer.Services;
 using TradingApp.DataLayer;
+using TradingApp.DataLayer.Seeding;
 using TradingApp.UILayer.Hubs;
 using TradingApp.UILayer.Services;
 
@@ -30,6 +31,7 @@ using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<TradingDbContext>();
         await context.Database.MigrateAsync();
+        await TradingDbSeeder.SeedAsync(context);
         logger.LogInformation("Database migrations applied successfully.");
     }
     catch (Exception ex)

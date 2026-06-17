@@ -11,8 +11,8 @@ using TradingApp.DataLayer;
 namespace TradingApp.DataLayer.Migrations
 {
     [DbContext(typeof(TradingDbContext))]
-    [Migration("20260616223311_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260617105723_RemoveEmbeddedSeedData")]
+    partial class RemoveEmbeddedSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

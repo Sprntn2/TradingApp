@@ -19,6 +19,30 @@ namespace TradingApp.DataLayer.Models
         {
         }
 
+        internal static CurrencyPair CreateForSeeding(
+            int baseCurrencyId,
+            int quoteCurrencyId,
+            decimal currentValue,
+            decimal minValue,
+            decimal maxValue)
+        {
+            return new CurrencyPair(baseCurrencyId, quoteCurrencyId, currentValue, minValue, maxValue);
+        }
+
+        private CurrencyPair(
+            int baseCurrencyId,
+            int quoteCurrencyId,
+            decimal currentValue,
+            decimal minValue,
+            decimal maxValue)
+        {
+            BaseCurrencyId = baseCurrencyId;
+            QuoteCurrencyId = quoteCurrencyId;
+            CurrentValue = currentValue;
+            MinValue = minValue;
+            MaxValue = maxValue;
+        }
+
         /// <summary>
         /// Updates the current price and expands <see cref="MinValue"/> / <see cref="MaxValue"/>
         /// when the new price exceeds the recorded range.

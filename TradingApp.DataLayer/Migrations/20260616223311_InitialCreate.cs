@@ -56,27 +56,6 @@ namespace TradingApp.DataLayer.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Currencies",
-                columns: new[] { "Id", "Abbreviation", "Country", "Name" },
-                values: new object[,]
-                {
-                    { 1, "USD", "United States", "Dollar" },
-                    { 2, "ILS", "Israel", "Shekel" },
-                    { 3, "EUR", "Europe", "Euro" },
-                    { 4, "GBP", "Great Britain", "Pound" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "CurrencyPairs",
-                columns: new[] { "Id", "BaseCurrencyId", "CurrentValue", "MaxValue", "MinValue", "QuoteCurrencyId" },
-                values: new object[,]
-                {
-                    { 1, 1, 3.6500m, 3.7000m, 3.6000m, 2 },
-                    { 2, 3, 1.0800m, 1.1200m, 1.0500m, 1 },
-                    { 3, 4, 4.6200m, 4.7000m, 4.5500m, 2 }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Currencies_Abbreviation",
                 table: "Currencies",

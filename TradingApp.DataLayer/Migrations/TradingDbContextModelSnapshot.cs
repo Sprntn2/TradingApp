@@ -50,36 +50,6 @@ namespace TradingApp.DataLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("Currencies", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Abbreviation = "USD",
-                            Country = "United States",
-                            Name = "Dollar"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Abbreviation = "ILS",
-                            Country = "Israel",
-                            Name = "Shekel"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Abbreviation = "EUR",
-                            Country = "Europe",
-                            Name = "Euro"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Abbreviation = "GBP",
-                            Country = "Great Britain",
-                            Name = "Pound"
-                        });
                 });
 
             modelBuilder.Entity("TradingApp.DataLayer.Models.CurrencyPair", b =>
@@ -116,35 +86,6 @@ namespace TradingApp.DataLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("CurrencyPairs", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BaseCurrencyId = 1,
-                            CurrentValue = 3.6500m,
-                            MaxValue = 3.7000m,
-                            MinValue = 3.6000m,
-                            QuoteCurrencyId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BaseCurrencyId = 3,
-                            CurrentValue = 1.0800m,
-                            MaxValue = 1.1200m,
-                            MinValue = 1.0500m,
-                            QuoteCurrencyId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BaseCurrencyId = 4,
-                            CurrentValue = 4.6200m,
-                            MaxValue = 4.7000m,
-                            MinValue = 4.5500m,
-                            QuoteCurrencyId = 2
-                        });
                 });
 
             modelBuilder.Entity("TradingApp.DataLayer.Models.CurrencyPair", b =>

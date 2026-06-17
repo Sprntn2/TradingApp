@@ -33,7 +33,7 @@ UILayer  →  BusinessLayer  →  DataLayer  →  SQL Server (TradingDB)
 
 | Project | Responsibility |
 |---------|----------------|
-| **DataLayer** | `Currency`, `CurrencyPair`, `TradingDbContext`, Migrations |
+| **DataLayer** | `Currency`, `CurrencyPair`, `TradingDbContext`, Migrations, `TradingDbSeeder` |
 | **BusinessLayer** | `TradingCache`, `TradingSimulator`, DTOs, view mapping |
 | **UILayer** | `HomeController`, Views, `TradingHub`, `Program.cs` |
 
@@ -64,6 +64,17 @@ Update the connection string in `TradingApp.UILayer/appsettings.json` to match y
 | LocalDB | `(localdb)\\MSSQLLocalDB` |
 
 On startup, the application runs `Database.MigrateAsync()` and automatically creates or updates `TradingDB`.
+
+### Schema vs. Seed Data
+
+| Concern | Location | When it runs |
+|---------|----------|--------------|
+| **Schema** (tables, indexes, FKs) | `Migrations/` + `TradingDbContext` | `MigrateAsync()` on startup |
+| **Seed data** (currencies & pairs) | `Seeding/TradingDbSeeder.cs` | After migrations, idempotent (`if Currencies.Any()` → skip) |
+
+`TradingDbContext` defines structure only — no `HasData()`. Demo currencies and FX pairs are inserted at runtime by `TradingDbSeeder`, called from `Program.cs` immediately after `MigrateAsync()`.
+
+If you previously applied `InitialCreate` when it still embedded seed rows, migration `RemoveEmbeddedSeedData` removes those rows so the seeder can own reference data going forward.
 
 ### Migration Commands (Optional)
 
@@ -120,7 +131,8 @@ Open the URL shown in the terminal (e.g. `https://localhost:7039`) in your brows
 ```
 TradingApp.DataLayer/
   Models/              Currency.cs, CurrencyPair.cs
-  Migrations/          EF Core migrations
+  Migrations/          EF Core migrations (schema only)
+  Seeding/             TradingDbSeeder.cs (reference data)
   TradingDbContext.cs
 
 TradingApp.BusinessLayer/

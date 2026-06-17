@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TradingApp.BusinessLayer.DTOs;
 using TradingApp.BusinessLayer.Mapping;
+using TradingApp.BusinessLayer.Persistence;
 using TradingApp.DataLayer;
 using TradingApp.DataLayer.Models;
 
@@ -256,22 +257,20 @@ namespace TradingApp.BusinessLayer.Services
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<TradingDbContext>();
 
-            var syncedCount = 0;
-
-            foreach (var (pairId, currentValue) in snapshots)
-            {
-                var rowsAffected = await context.CurrencyPairs
-                    .Where(p => p.Id == pairId)
-                    .ExecuteUpdateAsync(
-                        setters => setters.SetProperty(p => p.CurrentValue, currentValue),
-                        cancellationToken);
-
-                syncedCount += rowsAffected;
-            }
+            var syncedCount = await BatchUpdateCurrentValuesAsync(context, snapshots, cancellationToken);
 
             _logger.LogInformation(
                 "Write-back synchronized CurrentValue for {PairCount} currency pairs to database.",
                 syncedCount);
+        }
+
+        private static Task<int> BatchUpdateCurrentValuesAsync(
+            TradingDbContext context,
+            IReadOnlyDictionary<int, decimal> snapshots,
+            CancellationToken cancellationToken)
+        {
+            var command = CurrencyPairBatchUpdateSqlBuilder.Build(snapshots);
+            return context.Database.ExecuteSqlRawAsync(command.Sql, command.Parameters, cancellationToken);
         }
 
         private async Task RunPeriodicSyncAsync(CancellationToken cancellationToken)
